@@ -22,6 +22,7 @@ button.primary { background: var(--primary); color: white; border: none; padding
 textarea, input { width: 100%; padding: 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; }
 .item-row { padding: 12px 0; border-bottom: 1px solid #eee; display: flex; align-items: center; gap: 12px; }
 .journal-entry { background: #f8fafc; padding: 16px; margin: 12px 0; border-radius: 8px; border-left: 5px solid var(--primary); }
+.pilot-card { border: 1px solid #e2e8f0; border-radius: 10px; padding: 18px; margin-bottom: 16px; }
 .small { font-size: 13px; color: #64748b; }
 .page { display: none; }
 </style>
@@ -86,37 +87,43 @@ textarea, input { width: 100%; padding: 14px; border: 1px solid #cbd5e1; border-
   </div>
 </div>
 
-<!-- Pilots Tab -->
+<!-- Pilots Tab - Rebuilt with 4 cards -->
 <div id="tab-pilots" class="page">
   <div class="card">
     <h2>Active PulsAIO Pilots</h2>
-    <p><strong>David Glaser</strong> • <strong>Laurie Glaser</strong> • <strong>One Medical Houston</strong> • <strong>Kevin Moore</strong></p>
-    <p style="margin-top:16px">Target: $25K/month recurring by mid-May 2026</p>
+    <p style="margin-bottom:20px">Target: <strong>$25K/month recurring by mid-May 2026</strong></p>
+    
+    <div class="pilot-card">
+      <h3>David Glaser</h3>
+      <p><strong>Status:</strong> Active • <strong>Goal:</strong> Full implementation</p>
+      <p class="small">Notes / Updates will go here</p>
+    </div>
+
+    <div class="pilot-card">
+      <h3>Laurie Glaser</h3>
+      <p><strong>Status:</strong> Active • <strong>Goal:</strong> Full implementation</p>
+      <p class="small">Notes / Updates will go here</p>
+    </div>
+
+    <div class="pilot-card">
+      <h3>One Medical Houston</h3>
+      <p><strong>Status:</strong> Active • <strong>Goal:</strong> Full implementation</p>
+      <p class="small">Notes / Updates will go here</p>
+    </div>
+
+    <div class="pilot-card">
+      <h3>Kevin Moore</h3>
+      <p><strong>Status:</strong> Active • <strong>Goal:</strong> Full implementation</p>
+      <p class="small">Notes / Updates will go here</p>
+    </div>
   </div>
 </div>
 
-<!-- Goals Tab -->
-<div id="tab-goals" class="page">
-  <div class="card"><h2>Goals</h2><p>Your goals tracking will go here.</p></div>
-</div>
-
-<!-- Calendar Tab -->
-<div id="tab-calendar" class="page">
-  <div class="card"><h2>Calendar</h2><p>Personal events + UTBSC TAB schedule will go here.</p></div>
-</div>
-
-<!-- Max Tab -->
-<div id="tab-max" class="page">
-  <div class="card">
-    <h2>Max AI Assistant</h2>
-    <p>Voice input and conversation with Max will go here (ElevenLabs + Grok integration coming).</p>
-  </div>
-</div>
-
-<!-- Projects Tab -->
-<div id="tab-projects" class="page">
-  <div class="card"><h2>Projects</h2><p>Project management and file links will go here.</p></div>
-</div>
+<!-- Other Tabs (placeholders) -->
+<div id="tab-goals" class="page"><div class="card"><h2>Goals</h2><p>Goals tracking will go here.</p></div></div>
+<div id="tab-calendar" class="page"><div class="card"><h2>Calendar</h2><p>Calendar + UTBSC TAB schedule will go here.</p></div></div>
+<div id="tab-max" class="page"><div class="card"><h2>Max AI Assistant</h2><p>Voice input and conversation will go here.</p></div></div>
+<div id="tab-projects" class="page"><div class="card"><h2>Projects</h2><p>Project management and file links will go here.</p></div></div>
 
 <script>
 // Persistent data
@@ -232,7 +239,7 @@ function deleteMemory(id) { memories = memories.filter(m => m.id !== id); saveAl
 
 // Init
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('%c✅ Grok v2 Complete PulsAIO Command Center loaded successfully', 'color:#00C48C;font-weight:bold');
+  console.log('%c✅ Grok v2 PulsAIO Command Center loaded successfully', 'color:#00C48C;font-weight:bold');
   renderJournal();
   renderTasks();
   renderReminders();
