@@ -16,7 +16,7 @@
 body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--dark); min-height: 100vh; line-height: 1.5; }
 .header { background: var(--primary); color: white; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
 .logo { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; }
-.nav button { background: none; border: none; color: rgba(255,255,255,0.85); padding: 10px 16px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600; }
+.nav button { background: none; border: none; color: rgba(255,255,255,0.85); padding: 10px 16px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600; transition: all 0.2s; }
 .nav button.active { background: rgba(255,255,255,0.25); color: white; }
 .card { background: white; border-radius: 12px; padding: 24px; margin: 20px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
 h2 { color: var(--primary); margin-bottom: 16px; }
@@ -25,6 +25,8 @@ textarea, input { width: 100%; padding: 14px; border: 1px solid #cbd5e1; border-
 .item-row { padding: 12px 0; border-bottom: 1px solid #eee; display: flex; align-items: center; gap: 12px; }
 .journal-entry { background: #f8fafc; padding: 16px; margin: 12px 0; border-radius: 8px; border-left: 5px solid var(--primary); }
 .small { font-size: 13px; color: #64748b; }
+.page { display: none; }
+.page.active { display: block; }
 </style>
 </head>
 <body>
@@ -32,17 +34,17 @@ textarea, input { width: 100%; padding: 14px; border: 1px solid #cbd5e1; border-
 <div class="header">
   <div class="logo">PulsAIO</div>
   <div class="nav">
-    <button class="active" onclick="showTab('today')">Today</button>
-    <button onclick="showTab('pilots')">Pilots</button>
-    <button onclick="showTab('goals')">Goals</button>
-    <button onclick="showTab('calendar')">Calendar</button>
-    <button onclick="showTab('max')">Max</button>
-    <button onclick="showTab('projects')">Projects</button>
+    <button data-tab="today" class="active" onclick="showTab('today')">Today</button>
+    <button data-tab="pilots" onclick="showTab('pilots')">Pilots</button>
+    <button data-tab="goals" onclick="showTab('goals')">Goals</button>
+    <button data-tab="calendar" onclick="showTab('calendar')">Calendar</button>
+    <button data-tab="max" onclick="showTab('max')">Max</button>
+    <button data-tab="projects" onclick="showTab('projects')">Projects</button>
   </div>
 </div>
 
 <!-- Today Tab -->
-<div id="tab-today" class="page">
+<div id="tab-today" class="page active">
   <div class="card">
     <h2>Today's Summary - April 4, 2026</h2>
     <p style="color:#64748b">Good morning, Bill. Let's make today count.</p>
@@ -88,12 +90,12 @@ textarea, input { width: 100%; padding: 14px; border: 1px solid #cbd5e1; border-
   </div>
 </div>
 
-<!-- Placeholder Tabs -->
-<div id="tab-pilots" class="page hidden"><div class="card"><h2>Pilots</h2><p>Pilot store tracking coming next round.</p></div></div>
-<div id="tab-goals" class="page hidden"><div class="card"><h2>Goals</h2><p>Goals tracking coming next round.</p></div></div>
-<div id="tab-calendar" class="page hidden"><div class="card"><h2>Calendar</h2><p>Calendar + UTBSC schedule coming next round.</p></div></div>
-<div id="tab-max" class="page hidden"><div class="card"><h2>Max AI Assistant</h2><p>Voice input and conversation coming next round.</p></div></div>
-<div id="tab-projects" class="page hidden"><div class="card"><h2>Projects</h2><p>Project management coming next round.</p></div></div>
+<!-- Other Tabs -->
+<div id="tab-pilots" class="page"><div class="card"><h2>Pilots</h2><p>Pilot store tracking coming next round.</p></div></div>
+<div id="tab-goals" class="page"><div class="card"><h2>Goals</h2><p>Goals tracking coming next round.</p></div></div>
+<div id="tab-calendar" class="page"><div class="card"><h2>Calendar</h2><p>Calendar + UTBSC schedule coming next round.</p></div></div>
+<div id="tab-max" class="page"><div class="card"><h2>Max AI Assistant</h2><p>Voice input and conversation coming next round.</p></div></div>
+<div id="tab-projects" class="page"><div class="card"><h2>Projects</h2><p>Project management coming next round.</p></div></div>
 
 <script>
 // Grok v1 - Clean build for Bill
@@ -110,8 +112,18 @@ function saveAll() {
 }
 
 function showTab(tab) {
-  document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
-  document.getElementById('tab-' + tab).classList.remove('hidden');
+  // Hide all pages
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  // Show the selected page
+  document.getElementById('tab-' + tab).classList.add('active');
+  
+  // Update active button
+  document.querySelectorAll('.nav button').forEach(btn => {
+    btn.classList.remove('active');
+    if (btn.getAttribute('data-tab') === tab) {
+      btn.classList.add('active');
+    }
+  });
 }
 
 function saveEntry() {
@@ -146,6 +158,7 @@ function renderJournal() {
     `).join('');
 }
 
+// Tasks, Reminders, Memory functions (same as before)
 function addTask() {
   const input = document.getElementById('taskInput');
   const text = input.value.trim();
