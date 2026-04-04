@@ -22,7 +22,8 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--d
 h2 { color: var(--primary); margin-bottom: 12px; }
 button.primary { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; }
 textarea, input { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; }
-.journal-entry { background: #f8fafc; padding: 12px; margin: 8px 0; border-radius: 8px; border-left: 4px solid var(--primary); }
+.item-row { padding: 10px 0; border-bottom: 1px solid #eee; display: flex; align-items: center; }
+.journal-entry { background: #f8fafc; padding: 14px; margin: 8px 0; border-radius: 8px; border-left: 4px solid var(--primary); }
 </style>
 </head>
 <body>
@@ -52,6 +53,33 @@ textarea, input { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-
     <h2>Previous Journal Entries</h2>
     <div id="journalList"></div>
   </div>
+
+  <div class="card">
+    <h2>Today's Tasks</h2>
+    <div style="display:flex;gap:8px;margin-bottom:12px">
+      <input id="taskInput" placeholder="Add a new task..." style="flex:1">
+      <button class="primary" onclick="addTask()">Add</button>
+    </div>
+    <div id="taskList"></div>
+  </div>
+
+  <div class="card">
+    <h2>Reminders</h2>
+    <div style="display:flex;gap:8px;margin-bottom:12px">
+      <input id="reminderInput" placeholder="Add a reminder..." style="flex:1">
+      <button class="primary" onclick="addReminder()">Add</button>
+    </div>
+    <div id="reminderList"></div>
+  </div>
+
+  <div class="card">
+    <h2>Memory Bank (for Max)</h2>
+    <div style="display:flex;gap:8px;margin-bottom:12px">
+      <input id="memoryInput" placeholder="Something for Max to remember..." style="flex:1">
+      <button class="primary" onclick="addMemory()">Save to Memory</button>
+    </div>
+    <div id="memoryList"></div>
+  </div>
 </div>
 
 <!-- Placeholder Tabs -->
@@ -64,6 +92,16 @@ textarea, input { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-
 <script>
 // Grok v1 - Clean build for Bill
 let journalEntries = JSON.parse(localStorage.getItem('journalEntries') || '[]');
+let tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+let reminders = JSON.parse(localStorage.getItem('reminders') || '[]');
+let memories = JSON.parse(localStorage.getItem('memories') || '[]');
+
+function saveAll() {
+  localStorage.setItem('journalEntries', JSON.stringify(journalEntries));
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+  localStorage.setItem('reminders', JSON.stringify(reminders));
+  localStorage.setItem('memories', JSON.stringify(memories));
+}
 
 function showTab(tab) {
   document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
@@ -78,15 +116,13 @@ function saveEntry() {
     return;
   }
 
-  const entry = {
+  journalEntries.unshift({
     id: Date.now(),
     date: new Date().toLocaleDateString(),
     text: text
-  };
+  });
 
-  journalEntries.unshift(entry);
-  localStorage.setItem('journalEntries', JSON.stringify(journalEntries));
-
+  saveAll();
   alert("✅ Journal entry saved successfully!");
   input.value = '';
   renderJournal();
@@ -104,10 +140,105 @@ function renderJournal() {
     `).join('');
 }
 
+function addTask() {
+  const input = document.getElementById('taskInput');
+  const text = input.value.trim();
+  if (!text) return;
+  tasks.push({id: Date.now(), text, done: false});
+  saveAll();
+  input.value = '';
+  renderTasks();
+}
+
+function renderTasks() {
+  const list = document.getElementById('taskList');
+  list.innerHTML = tasks.map(t => `
+    <div class="item-row">
+      <input type="checkbox" ${t.done ? 'checked' : ''} onchange="toggleTask(${t.id})" style="margin-right:10px;">
+      <span style="${t.done ? 'text-decoration:line-through; color:#888' : ''}">${t.text}</span>
+      <button onclick="deleteTask(${t.id})" style="margin-left:auto; background:none; border:none; color:#e74c3c; cursor:pointer;">×</button>
+    </div>
+  `).join('');
+}
+
+function toggleTask(id) {
+  tasks = tasks.map(t => t.id === id ? {...t, done: !t.done} : t);
+  saveAll();
+  renderTasks();
+}
+
+function deleteTask(id) {
+  tasks = tasks.filter(t => t.id !== id);
+  saveAll();
+  renderTasks();
+}
+
+function addReminder() {
+  const input = document.getElementById('reminderInput');
+  const text = input.value.trim();
+  if (!text) return;
+  reminders.push({id: Date.now(), text, done: false});
+  saveAll();
+  input.value = '';
+  renderReminders();
+}
+
+function renderReminders() {
+  const list = document.getElementById('reminderList');
+  list.innerHTML = reminders.map(r => `
+    <div class="item-row">
+      <input type="checkbox" ${r.done ? 'checked' : ''} onchange="toggleReminder(${r.id})" style="margin-right:10px;">
+      <span style="${r.done ? 'text-decoration:line-through; color:#888' : ''}">${r.text}</span>
+      <button onclick="deleteReminder(${r.id})" style="margin-left:auto; background:none; border:none; color:#e74c3c; cursor:pointer;">×</button>
+    </div>
+  `).join('');
+}
+
+function toggleReminder(id) {
+  reminders = reminders.map(r => r.id === id ? {...r, done: !r.done} : r);
+  saveAll();
+  renderReminders();
+}
+
+function deleteReminder(id) {
+  reminders = reminders.filter(r => r.id !== id);
+  saveAll();
+  renderReminders();
+}
+
+function addMemory() {
+  const input = document.getElementById('memoryInput');
+  const text = input.value.trim();
+  if (!text) return;
+  memories.unshift({id: Date.now(), text});
+  saveAll();
+  input.value = '';
+  renderMemories();
+}
+
+function renderMemories() {
+  const list = document.getElementById('memoryList');
+  list.innerHTML = memories.map(m => `
+    <div class="item-row">
+      <span>${m.text}</span>
+      <button onclick="deleteMemory(${m.id})" style="margin-left:auto; background:none; border:none; color:#e74c3c; cursor:pointer;">×</button>
+    </div>
+  `).join('');
+}
+
+function deleteMemory(id) {
+  memories = memories.filter(m => m.id !== id);
+  saveAll();
+  renderMemories();
+}
+
 // Init
 document.addEventListener('DOMContentLoaded', () => {
   console.log('%c✅ Grok v1 Clean PulsAIO Command Center loaded successfully', 'color:#00C48C;font-weight:bold');
   renderJournal();
+  renderTasks();
+  renderReminders();
+  renderMemories();
   showTab('today');
 });
 </script>
