@@ -22,6 +22,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--d
 h2 { color: var(--primary); margin-bottom: 12px; }
 button.primary { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; }
 textarea, input { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; }
+.task-row { padding: 8px 0; border-bottom: 1px solid #eee; display: flex; align-items: center; }
 </style>
 </head>
 <body>
@@ -49,17 +50,19 @@ textarea, input { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-
 
   <div class="card">
     <h2>Today's Tasks</h2>
-    <input id="taskInput" placeholder="Add a new task..." style="margin-bottom:8px">
-    <button class="primary" onclick="addTask()">Add Task</button>
-    <div id="taskList" style="margin-top:12px"></div>
+    <div style="display:flex;gap:8px;margin-bottom:12px">
+      <input id="taskInput" placeholder="Add a new task..." style="flex:1">
+      <button class="primary" onclick="addTask()">Add</button>
+    </div>
+    <div id="taskList"></div>
   </div>
 </div>
 
 <!-- Placeholder Tabs -->
-<div id="tab-pilots" class="page hidden"><div class="card"><h2>Pilots</h2><p>Pilot store tracking will be added next.</p></div></div>
+<div id="tab-pilots" class="page hidden"><div class="card"><h2>Pilots</h2><p>Pilot store tracking coming soon.</p></div></div>
 <div id="tab-goals" class="page hidden"><div class="card"><h2>Goals</h2><p>Goals tracking coming soon.</p></div></div>
 <div id="tab-calendar" class="page hidden"><div class="card"><h2>Calendar</h2><p>Calendar + UTBSC schedule coming soon.</p></div></div>
-<div id="tab-max" class="page hidden"><div class="card"><h2>Max</h2><p>Voice assistant coming soon.</p></div></div>
+<div id="tab-max" class="page hidden"><div class="card"><h2>Max AI Assistant</h2><p>Voice input and conversation coming soon.</p></div></div>
 <div id="tab-projects" class="page hidden"><div class="card"><h2>Projects</h2><p>Project management coming soon.</p></div></div>
 
 <script>
@@ -95,7 +98,7 @@ function addTask() {
 function renderTasks() {
   const list = document.getElementById('taskList');
   list.innerHTML = tasks.map(t => `
-    <div style="padding:8px 0; border-bottom:1px solid #eee; display:flex; align-items:center;">
+    <div class="task-row">
       <input type="checkbox" ${t.done ? 'checked' : ''} onchange="toggleTask(${t.id})" style="margin-right:10px;">
       <span style="${t.done ? 'text-decoration:line-through; color:#888' : ''}">${t.text}</span>
       <button onclick="deleteTask(${t.id})" style="margin-left:auto; background:none; border:none; color:#e74c3c; cursor:pointer;">×</button>
