@@ -2,31 +2,21 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<title>PulsAIO Command Center - Grok v1</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<title>PulsAIO Command Center • Grok v2</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --primary: #0057B8;
+  --primary: #0057B8; --accent: #00A3E0; --green: #00C48C; --red: #E84C4C; --dark: #0D1B2A; --bg: #F0F4F8;
 }
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'DM Sans', sans-serif; background: #F0F4F8; color: #0D1B2A; min-height: 100vh; }
-.header { background: var(--primary); color: white; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
-.logo { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; }
-.nav button { 
-  background: none; 
-  border: none; 
-  color: rgba(255,255,255,0.9); 
-  padding: 12px 20px; 
-  border-radius: 6px; 
-  cursor: pointer; 
-  font-size: 14px; 
-  font-weight: 600; 
-}
-.nav button.active { background: rgba(255,255,255,0.3); color: white; }
-.card { background: white; border-radius: 12px; padding: 24px; margin: 20px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+* { box-sizing: border-box; margin:0; padding:0; }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--dark); min-height:100vh; line-height:1.5; }
+.header { background: var(--primary); color: white; padding: 18px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+.logo { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; }
+.nav button { background: none; border: none; color: rgba(255,255,255,0.9); padding: 12px 20px; margin: 0 4px; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: 600; }
+.nav button.active { background: rgba(255,255,255,0.25); color: white; }
+.card { background: white; border-radius: 12px; padding: 24px; margin: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
 h2 { color: var(--primary); margin-bottom: 16px; }
 button.primary { background: var(--primary); color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-size: 15px; }
 textarea, input { width: 100%; padding: 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; }
@@ -53,14 +43,13 @@ textarea, input { width: 100%; padding: 14px; border: 1px solid #cbd5e1; border-
 <!-- Today Tab -->
 <div id="tab-today" class="page" style="display:block;">
   <div class="card">
-    <h2>Today's Summary</h2>
-    <p style="color:#64748b">Good morning, Bill. Let's make today count.</p>
+    <h2>Today's Summary • April 4, 2026</h2>
+    <p style="color:#64748b">Good morning, Bill. Let's make today count for Unity Controls, UTBSC, and PulsAIO.</p>
   </div>
 
   <div class="card">
     <h2>Daily Journal</h2>
-    <textarea id="journalInput" rows="4" placeholder="What's driving your decisions today, Bill?"></textarea>
-    <br><br>
+    <textarea id="journalInput" rows="4" placeholder="What's driving your decisions today, Bill?"></textarea><br><br>
     <button class="primary" onclick="saveEntry()">Save Entry</button>
   </div>
 
@@ -97,15 +86,40 @@ textarea, input { width: 100%; padding: 14px; border: 1px solid #cbd5e1; border-
   </div>
 </div>
 
-<!-- Other Tabs -->
-<div id="tab-pilots" class="page"><div class="card"><h2>Pilots</h2><p>Your pilot stores will go here.</p></div></div>
-<div id="tab-goals" class="page"><div class="card"><h2>Goals</h2><p>Your goals will go here.</p></div></div>
-<div id="tab-calendar" class="page"><div class="card"><h2>Calendar</h2><p>Calendar + UTBSC schedule will go here.</p></div></div>
-<div id="tab-max" class="page"><div class="card"><h2>Max AI Assistant</h2><p>Voice input and conversation will go here.</p></div></div>
-<div id="tab-projects" class="page"><div class="card"><h2>Projects</h2><p>Your projects will go here.</p></div></div>
+<!-- Pilots Tab -->
+<div id="tab-pilots" class="page">
+  <div class="card">
+    <h2>Active PulsAIO Pilots</h2>
+    <p><strong>David Glaser</strong> • <strong>Laurie Glaser</strong> • <strong>One Medical Houston</strong> • <strong>Kevin Moore</strong></p>
+    <p style="margin-top:16px">Target: $25K/month recurring by mid-May 2026</p>
+  </div>
+</div>
+
+<!-- Goals Tab -->
+<div id="tab-goals" class="page">
+  <div class="card"><h2>Goals</h2><p>Your goals tracking will go here.</p></div>
+</div>
+
+<!-- Calendar Tab -->
+<div id="tab-calendar" class="page">
+  <div class="card"><h2>Calendar</h2><p>Personal events + UTBSC TAB schedule will go here.</p></div>
+</div>
+
+<!-- Max Tab -->
+<div id="tab-max" class="page">
+  <div class="card">
+    <h2>Max AI Assistant</h2>
+    <p>Voice input and conversation with Max will go here (ElevenLabs + Grok integration coming).</p>
+  </div>
+</div>
+
+<!-- Projects Tab -->
+<div id="tab-projects" class="page">
+  <div class="card"><h2>Projects</h2><p>Project management and file links will go here.</p></div>
+</div>
 
 <script>
-// Grok v1 - Clean build for Bill
+// Persistent data
 let journalEntries = JSON.parse(localStorage.getItem('journalEntries') || '[]');
 let tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
 let reminders = JSON.parse(localStorage.getItem('reminders') || '[]');
@@ -119,40 +133,20 @@ function saveAll() {
 }
 
 function showTab(tab) {
-  // Hide all pages
-  document.querySelectorAll('.page').forEach(page => {
-    page.style.display = 'none';
-  });
-  
-  // Show the selected page
-  const selectedPage = document.getElementById('tab-' + tab);
-  if (selectedPage) {
-    selectedPage.style.display = 'block';
-  }
+  document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+  document.getElementById('tab-' + tab).style.display = 'block';
 
-  // Update active button
   document.querySelectorAll('.nav button').forEach(btn => {
     btn.classList.remove('active');
-    if (btn.textContent.trim() === tab.charAt(0).toUpperCase() + tab.slice(1)) {
-      btn.classList.add('active');
-    }
+    if (btn.textContent.toLowerCase() === tab) btn.classList.add('active');
   });
 }
 
 function saveEntry() {
   const input = document.getElementById('journalInput');
   const text = input.value.trim();
-  if (!text) {
-    alert("Please type something in the journal box.");
-    return;
-  }
-
-  journalEntries.unshift({
-    id: Date.now(),
-    date: new Date().toLocaleString(),
-    text: text
-  });
-
+  if (!text) return alert("Please type something in the journal box.");
+  journalEntries.unshift({id: Date.now(), date: new Date().toLocaleString(), text: text});
   saveAll();
   alert("✅ Journal entry saved successfully!");
   input.value = '';
@@ -163,19 +157,14 @@ function renderJournal() {
   const list = document.getElementById('journalList');
   list.innerHTML = journalEntries.length === 0 
     ? '<p style="color:#888">No entries yet.</p>'
-    : journalEntries.map(entry => `
-      <div class="journal-entry">
-        <div class="small">${entry.date}</div>
-        <p>${entry.text}</p>
-      </div>
-    `).join('');
+    : journalEntries.map(e => `<div class="journal-entry"><div class="small">${e.date}</div><p>${e.text}</p></div>`).join('');
 }
 
 function addTask() {
   const input = document.getElementById('taskInput');
   const text = input.value.trim();
   if (!text) return;
-  tasks.push({id: Date.now(), text, done: false, time: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})});
+  tasks.push({id: Date.now(), text, done: false});
   saveAll();
   input.value = '';
   renderTasks();
@@ -186,30 +175,20 @@ function renderTasks() {
   list.innerHTML = tasks.map(t => `
     <div class="item-row">
       <input type="checkbox" ${t.done ? 'checked' : ''} onchange="toggleTask(${t.id})">
-      <span style="${t.done ? 'text-decoration:line-through; color:#888' : ''}">${t.text}</span>
-      <span class="small" style="margin-left:auto">${t.time}</span>
-      <button onclick="deleteTask(${t.id})" style="margin-left:12px; background:none; border:none; color:#e74c3c; cursor:pointer;">×</button>
+      <span style="${t.done ? 'text-decoration:line-through;color:#888' : ''}">${t.text}</span>
+      <button onclick="deleteTask(${t.id})" style="margin-left:auto;background:none;border:none;color:#e74c3c;cursor:pointer;">×</button>
     </div>
   `).join('');
 }
 
-function toggleTask(id) {
-  tasks = tasks.map(t => t.id === id ? {...t, done: !t.done} : t);
-  saveAll();
-  renderTasks();
-}
-
-function deleteTask(id) {
-  tasks = tasks.filter(t => t.id !== id);
-  saveAll();
-  renderTasks();
-}
+function toggleTask(id) { tasks = tasks.map(t => t.id === id ? {...t, done: !t.done} : t); saveAll(); renderTasks(); }
+function deleteTask(id) { tasks = tasks.filter(t => t.id !== id); saveAll(); renderTasks(); }
 
 function addReminder() {
   const input = document.getElementById('reminderInput');
   const text = input.value.trim();
   if (!text) return;
-  reminders.push({id: Date.now(), text, done: false, time: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})});
+  reminders.push({id: Date.now(), text, done: false});
   saveAll();
   input.value = '';
   renderReminders();
@@ -220,30 +199,20 @@ function renderReminders() {
   list.innerHTML = reminders.map(r => `
     <div class="item-row">
       <input type="checkbox" ${r.done ? 'checked' : ''} onchange="toggleReminder(${r.id})">
-      <span style="${r.done ? 'text-decoration:line-through; color:#888' : ''}">${r.text}</span>
-      <span class="small" style="margin-left:auto">${r.time}</span>
-      <button onclick="deleteReminder(${r.id})" style="margin-left:12px; background:none; border:none; color:#e74c3c; cursor:pointer;">×</button>
+      <span style="${r.done ? 'text-decoration:line-through;color:#888' : ''}">${r.text}</span>
+      <button onclick="deleteReminder(${r.id})" style="margin-left:auto;background:none;border:none;color:#e74c3c;cursor:pointer;">×</button>
     </div>
   `).join('');
 }
 
-function toggleReminder(id) {
-  reminders = reminders.map(r => r.id === id ? {...r, done: !r.done} : r);
-  saveAll();
-  renderReminders();
-}
-
-function deleteReminder(id) {
-  reminders = reminders.filter(r => r.id !== id);
-  saveAll();
-  renderReminders();
-}
+function toggleReminder(id) { reminders = reminders.map(r => r.id === id ? {...r, done: !r.done} : r); saveAll(); renderReminders(); }
+function deleteReminder(id) { reminders = reminders.filter(r => r.id !== id); saveAll(); renderReminders(); }
 
 function addMemory() {
   const input = document.getElementById('memoryInput');
   const text = input.value.trim();
   if (!text) return;
-  memories.unshift({id: Date.now(), text, time: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})});
+  memories.unshift({id: Date.now(), text});
   saveAll();
   input.value = '';
   renderMemories();
@@ -254,26 +223,20 @@ function renderMemories() {
   list.innerHTML = memories.map(m => `
     <div class="item-row">
       <span>${m.text}</span>
-      <span class="small" style="margin-left:auto">${m.time}</span>
-      <button onclick="deleteMemory(${m.id})" style="margin-left:12px; background:none; border:none; color:#e74c3c; cursor:pointer;">×</button>
+      <button onclick="deleteMemory(${m.id})" style="margin-left:auto;background:none;border:none;color:#e74c3c;cursor:pointer;">×</button>
     </div>
   `).join('');
 }
 
-function deleteMemory(id) {
-  memories = memories.filter(m => m.id !== id);
-  saveAll();
-  renderMemories();
-}
+function deleteMemory(id) { memories = memories.filter(m => m.id !== id); saveAll(); renderMemories(); }
 
 // Init
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('%c✅ Grok v1 Clean PulsAIO Command Center loaded successfully', 'color:#00C48C;font-weight:bold');
+  console.log('%c✅ Grok v2 Complete PulsAIO Command Center loaded successfully', 'color:#00C48C;font-weight:bold');
   renderJournal();
   renderTasks();
   renderReminders();
   renderMemories();
-  // Today is already shown by inline style
 });
 </script>
 </body>
