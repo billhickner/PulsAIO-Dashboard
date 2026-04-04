@@ -13,17 +13,18 @@
   --red: #E84C4C; --dark: #0D1B2A; --bg: #F0F4F8;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--dark); min-height: 100vh; }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--dark); min-height: 100vh; line-height: 1.5; }
 .header { background: var(--primary); color: white; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
 .logo { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; }
 .nav button { background: none; border: none; color: rgba(255,255,255,0.85); padding: 10px 16px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600; }
 .nav button.active { background: rgba(255,255,255,0.25); color: white; }
-.card { background: white; border-radius: 12px; padding: 20px; margin: 16px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
-h2 { color: var(--primary); margin-bottom: 12px; }
-button.primary { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; }
-textarea, input { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; }
-.item-row { padding: 10px 0; border-bottom: 1px solid #eee; display: flex; align-items: center; }
-.journal-entry { background: #f8fafc; padding: 14px; margin: 8px 0; border-radius: 8px; border-left: 4px solid var(--primary); }
+.card { background: white; border-radius: 12px; padding: 24px; margin: 20px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+h2 { color: var(--primary); margin-bottom: 16px; }
+button.primary { background: var(--primary); color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-size: 15px; }
+textarea, input { width: 100%; padding: 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; }
+.item-row { padding: 12px 0; border-bottom: 1px solid #eee; display: flex; align-items: center; gap: 12px; }
+.journal-entry { background: #f8fafc; padding: 16px; margin: 12px 0; border-radius: 8px; border-left: 5px solid var(--primary); }
+.small { font-size: 13px; color: #64748b; }
 </style>
 </head>
 <body>
@@ -44,7 +45,7 @@ textarea, input { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-
 <div id="tab-today" class="page">
   <div class="card">
     <h2>Daily Journal</h2>
-    <textarea id="journalInput" placeholder="What's driving your decisions today, Bill?"></textarea>
+    <textarea id="journalInput" rows="4" placeholder="What's driving your decisions today, Bill?"></textarea>
     <br><br>
     <button class="primary" onclick="saveEntry()">Save Entry</button>
   </div>
@@ -58,7 +59,7 @@ textarea, input { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-
     <h2>Today's Tasks</h2>
     <div style="display:flex;gap:8px;margin-bottom:12px">
       <input id="taskInput" placeholder="Add a new task..." style="flex:1">
-      <button class="primary" onclick="addTask()">Add</button>
+      <button class="primary" onclick="addTask()">Add Task</button>
     </div>
     <div id="taskList"></div>
   </div>
@@ -67,7 +68,7 @@ textarea, input { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-
     <h2>Reminders</h2>
     <div style="display:flex;gap:8px;margin-bottom:12px">
       <input id="reminderInput" placeholder="Add a reminder..." style="flex:1">
-      <button class="primary" onclick="addReminder()">Add</button>
+      <button class="primary" onclick="addReminder()">Add Reminder</button>
     </div>
     <div id="reminderList"></div>
   </div>
@@ -75,7 +76,7 @@ textarea, input { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-
   <div class="card">
     <h2>Memory Bank (for Max)</h2>
     <div style="display:flex;gap:8px;margin-bottom:12px">
-      <input id="memoryInput" placeholder="Something for Max to remember..." style="flex:1">
+      <input id="memoryInput" placeholder="Something important for Max to remember..." style="flex:1">
       <button class="primary" onclick="addMemory()">Save to Memory</button>
     </div>
     <div id="memoryList"></div>
@@ -83,11 +84,11 @@ textarea, input { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-
 </div>
 
 <!-- Placeholder Tabs -->
-<div id="tab-pilots" class="page hidden"><div class="card"><h2>Pilots</h2><p>Pilot store tracking coming next.</p></div></div>
-<div id="tab-goals" class="page hidden"><div class="card"><h2>Goals</h2><p>Goals tracking coming next.</p></div></div>
-<div id="tab-calendar" class="page hidden"><div class="card"><h2>Calendar</h2><p>Calendar + UTBSC schedule coming next.</p></div></div>
-<div id="tab-max" class="page hidden"><div class="card"><h2>Max AI Assistant</h2><p>Voice input and conversation coming next.</p></div></div>
-<div id="tab-projects" class="page hidden"><div class="card"><h2>Projects</h2><p>Project management coming next.</p></div></div>
+<div id="tab-pilots" class="page hidden"><div class="card"><h2>Pilots</h2><p>Pilot store tracking coming next round.</p></div></div>
+<div id="tab-goals" class="page hidden"><div class="card"><h2>Goals</h2><p>Goals tracking coming next round.</p></div></div>
+<div id="tab-calendar" class="page hidden"><div class="card"><h2>Calendar</h2><p>Calendar + UTBSC schedule coming next round.</p></div></div>
+<div id="tab-max" class="page hidden"><div class="card"><h2>Max AI Assistant</h2><p>Voice input and conversation coming next round.</p></div></div>
+<div id="tab-projects" class="page hidden"><div class="card"><h2>Projects</h2><p>Project management coming next round.</p></div></div>
 
 <script>
 // Grok v1 - Clean build for Bill
@@ -118,7 +119,7 @@ function saveEntry() {
 
   journalEntries.unshift({
     id: Date.now(),
-    date: new Date().toLocaleDateString(),
+    date: new Date().toLocaleString(),
     text: text
   });
 
@@ -134,7 +135,7 @@ function renderJournal() {
     ? '<p style="color:#888">No entries yet.</p>'
     : journalEntries.map(entry => `
       <div class="journal-entry">
-        <small style="color:#888">${entry.date}</small>
+        <div class="small">${entry.date}</div>
         <p>${entry.text}</p>
       </div>
     `).join('');
@@ -154,7 +155,7 @@ function renderTasks() {
   const list = document.getElementById('taskList');
   list.innerHTML = tasks.map(t => `
     <div class="item-row">
-      <input type="checkbox" ${t.done ? 'checked' : ''} onchange="toggleTask(${t.id})" style="margin-right:10px;">
+      <input type="checkbox" ${t.done ? 'checked' : ''} onchange="toggleTask(${t.id})">
       <span style="${t.done ? 'text-decoration:line-through; color:#888' : ''}">${t.text}</span>
       <button onclick="deleteTask(${t.id})" style="margin-left:auto; background:none; border:none; color:#e74c3c; cursor:pointer;">×</button>
     </div>
@@ -187,7 +188,7 @@ function renderReminders() {
   const list = document.getElementById('reminderList');
   list.innerHTML = reminders.map(r => `
     <div class="item-row">
-      <input type="checkbox" ${r.done ? 'checked' : ''} onchange="toggleReminder(${r.id})" style="margin-right:10px;">
+      <input type="checkbox" ${r.done ? 'checked' : ''} onchange="toggleReminder(${r.id})">
       <span style="${r.done ? 'text-decoration:line-through; color:#888' : ''}">${r.text}</span>
       <button onclick="deleteReminder(${r.id})" style="margin-left:auto; background:none; border:none; color:#e74c3c; cursor:pointer;">×</button>
     </div>
