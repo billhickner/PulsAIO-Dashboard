@@ -9,15 +9,23 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --primary: #0057B8; --accent: #00A3E0; --gold: #F5A623; --green: #00C48C;
-  --red: #E84C4C; --dark: #0D1B2A; --bg: #F0F4F8;
+  --primary: #0057B8;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--dark); min-height: 100vh; line-height: 1.5; }
+body { font-family: 'DM Sans', sans-serif; background: #F0F4F8; color: #0D1B2A; min-height: 100vh; }
 .header { background: var(--primary); color: white; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
 .logo { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; }
-.nav button { background: none; border: none; color: rgba(255,255,255,0.85); padding: 10px 16px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600; transition: all 0.2s; }
-.nav button.active { background: rgba(255,255,255,0.25); color: white; }
+.nav button { 
+  background: none; 
+  border: none; 
+  color: rgba(255,255,255,0.9); 
+  padding: 12px 20px; 
+  border-radius: 6px; 
+  cursor: pointer; 
+  font-size: 14px; 
+  font-weight: 600; 
+}
+.nav button.active { background: rgba(255,255,255,0.3); color: white; }
 .card { background: white; border-radius: 12px; padding: 24px; margin: 20px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
 h2 { color: var(--primary); margin-bottom: 16px; }
 button.primary { background: var(--primary); color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-size: 15px; }
@@ -26,7 +34,6 @@ textarea, input { width: 100%; padding: 14px; border: 1px solid #cbd5e1; border-
 .journal-entry { background: #f8fafc; padding: 16px; margin: 12px 0; border-radius: 8px; border-left: 5px solid var(--primary); }
 .small { font-size: 13px; color: #64748b; }
 .page { display: none; }
-.page.active { display: block; }
 </style>
 </head>
 <body>
@@ -34,19 +41,19 @@ textarea, input { width: 100%; padding: 14px; border: 1px solid #cbd5e1; border-
 <div class="header">
   <div class="logo">PulsAIO</div>
   <div class="nav">
-    <button data-tab="today" class="active" onclick="showTab('today')">Today</button>
-    <button data-tab="pilots" onclick="showTab('pilots')">Pilots</button>
-    <button data-tab="goals" onclick="showTab('goals')">Goals</button>
-    <button data-tab="calendar" onclick="showTab('calendar')">Calendar</button>
-    <button data-tab="max" onclick="showTab('max')">Max</button>
-    <button data-tab="projects" onclick="showTab('projects')">Projects</button>
+    <button onclick="showTab('today')" class="active">Today</button>
+    <button onclick="showTab('pilots')">Pilots</button>
+    <button onclick="showTab('goals')">Goals</button>
+    <button onclick="showTab('calendar')">Calendar</button>
+    <button onclick="showTab('max')">Max</button>
+    <button onclick="showTab('projects')">Projects</button>
   </div>
 </div>
 
 <!-- Today Tab -->
-<div id="tab-today" class="page active">
+<div id="tab-today" class="page" style="display:block;">
   <div class="card">
-    <h2>Today's Summary - April 4, 2026</h2>
+    <h2>Today's Summary</h2>
     <p style="color:#64748b">Good morning, Bill. Let's make today count.</p>
   </div>
 
@@ -91,11 +98,11 @@ textarea, input { width: 100%; padding: 14px; border: 1px solid #cbd5e1; border-
 </div>
 
 <!-- Other Tabs -->
-<div id="tab-pilots" class="page"><div class="card"><h2>Pilots</h2><p>Pilot store tracking coming next round.</p></div></div>
-<div id="tab-goals" class="page"><div class="card"><h2>Goals</h2><p>Goals tracking coming next round.</p></div></div>
-<div id="tab-calendar" class="page"><div class="card"><h2>Calendar</h2><p>Calendar + UTBSC schedule coming next round.</p></div></div>
-<div id="tab-max" class="page"><div class="card"><h2>Max AI Assistant</h2><p>Voice input and conversation coming next round.</p></div></div>
-<div id="tab-projects" class="page"><div class="card"><h2>Projects</h2><p>Project management coming next round.</p></div></div>
+<div id="tab-pilots" class="page"><div class="card"><h2>Pilots</h2><p>Your pilot stores will go here.</p></div></div>
+<div id="tab-goals" class="page"><div class="card"><h2>Goals</h2><p>Your goals will go here.</p></div></div>
+<div id="tab-calendar" class="page"><div class="card"><h2>Calendar</h2><p>Calendar + UTBSC schedule will go here.</p></div></div>
+<div id="tab-max" class="page"><div class="card"><h2>Max AI Assistant</h2><p>Voice input and conversation will go here.</p></div></div>
+<div id="tab-projects" class="page"><div class="card"><h2>Projects</h2><p>Your projects will go here.</p></div></div>
 
 <script>
 // Grok v1 - Clean build for Bill
@@ -113,14 +120,20 @@ function saveAll() {
 
 function showTab(tab) {
   // Hide all pages
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  // Show the selected page
-  document.getElementById('tab-' + tab).classList.add('active');
+  document.querySelectorAll('.page').forEach(page => {
+    page.style.display = 'none';
+  });
   
+  // Show the selected page
+  const selectedPage = document.getElementById('tab-' + tab);
+  if (selectedPage) {
+    selectedPage.style.display = 'block';
+  }
+
   // Update active button
   document.querySelectorAll('.nav button').forEach(btn => {
     btn.classList.remove('active');
-    if (btn.getAttribute('data-tab') === tab) {
+    if (btn.textContent.trim() === tab.charAt(0).toUpperCase() + tab.slice(1)) {
       btn.classList.add('active');
     }
   });
@@ -158,7 +171,6 @@ function renderJournal() {
     `).join('');
 }
 
-// Tasks, Reminders, Memory functions (same as before)
 function addTask() {
   const input = document.getElementById('taskInput');
   const text = input.value.trim();
@@ -175,7 +187,7 @@ function renderTasks() {
     <div class="item-row">
       <input type="checkbox" ${t.done ? 'checked' : ''} onchange="toggleTask(${t.id})">
       <span style="${t.done ? 'text-decoration:line-through; color:#888' : ''}">${t.text}</span>
-      <span class="small" style="margin-left:auto; color:#64748b">${t.time}</span>
+      <span class="small" style="margin-left:auto">${t.time}</span>
       <button onclick="deleteTask(${t.id})" style="margin-left:12px; background:none; border:none; color:#e74c3c; cursor:pointer;">×</button>
     </div>
   `).join('');
@@ -209,7 +221,7 @@ function renderReminders() {
     <div class="item-row">
       <input type="checkbox" ${r.done ? 'checked' : ''} onchange="toggleReminder(${r.id})">
       <span style="${r.done ? 'text-decoration:line-through; color:#888' : ''}">${r.text}</span>
-      <span class="small" style="margin-left:auto; color:#64748b">${r.time}</span>
+      <span class="small" style="margin-left:auto">${r.time}</span>
       <button onclick="deleteReminder(${r.id})" style="margin-left:12px; background:none; border:none; color:#e74c3c; cursor:pointer;">×</button>
     </div>
   `).join('');
@@ -242,7 +254,7 @@ function renderMemories() {
   list.innerHTML = memories.map(m => `
     <div class="item-row">
       <span>${m.text}</span>
-      <span class="small" style="margin-left:auto; color:#64748b">${m.time}</span>
+      <span class="small" style="margin-left:auto">${m.time}</span>
       <button onclick="deleteMemory(${m.id})" style="margin-left:12px; background:none; border:none; color:#e74c3c; cursor:pointer;">×</button>
     </div>
   `).join('');
@@ -261,7 +273,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderTasks();
   renderReminders();
   renderMemories();
-  showTab('today');
+  // Today is already shown by inline style
 });
 </script>
 </body>
