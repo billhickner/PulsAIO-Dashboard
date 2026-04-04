@@ -44,6 +44,11 @@ textarea, input { width: 100%; padding: 14px; border: 1px solid #cbd5e1; border-
 <!-- Today Tab -->
 <div id="tab-today" class="page">
   <div class="card">
+    <h2>Today's Summary - April 4, 2026</h2>
+    <p style="color:#64748b">Good morning, Bill. Let's make today count.</p>
+  </div>
+
+  <div class="card">
     <h2>Daily Journal</h2>
     <textarea id="journalInput" rows="4" placeholder="What's driving your decisions today, Bill?"></textarea>
     <br><br>
@@ -145,7 +150,7 @@ function addTask() {
   const input = document.getElementById('taskInput');
   const text = input.value.trim();
   if (!text) return;
-  tasks.push({id: Date.now(), text, done: false});
+  tasks.push({id: Date.now(), text, done: false, time: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})});
   saveAll();
   input.value = '';
   renderTasks();
@@ -157,7 +162,8 @@ function renderTasks() {
     <div class="item-row">
       <input type="checkbox" ${t.done ? 'checked' : ''} onchange="toggleTask(${t.id})">
       <span style="${t.done ? 'text-decoration:line-through; color:#888' : ''}">${t.text}</span>
-      <button onclick="deleteTask(${t.id})" style="margin-left:auto; background:none; border:none; color:#e74c3c; cursor:pointer;">×</button>
+      <span class="small" style="margin-left:auto; color:#64748b">${t.time}</span>
+      <button onclick="deleteTask(${t.id})" style="margin-left:12px; background:none; border:none; color:#e74c3c; cursor:pointer;">×</button>
     </div>
   `).join('');
 }
@@ -178,7 +184,7 @@ function addReminder() {
   const input = document.getElementById('reminderInput');
   const text = input.value.trim();
   if (!text) return;
-  reminders.push({id: Date.now(), text, done: false});
+  reminders.push({id: Date.now(), text, done: false, time: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})});
   saveAll();
   input.value = '';
   renderReminders();
@@ -190,7 +196,8 @@ function renderReminders() {
     <div class="item-row">
       <input type="checkbox" ${r.done ? 'checked' : ''} onchange="toggleReminder(${r.id})">
       <span style="${r.done ? 'text-decoration:line-through; color:#888' : ''}">${r.text}</span>
-      <button onclick="deleteReminder(${r.id})" style="margin-left:auto; background:none; border:none; color:#e74c3c; cursor:pointer;">×</button>
+      <span class="small" style="margin-left:auto; color:#64748b">${r.time}</span>
+      <button onclick="deleteReminder(${r.id})" style="margin-left:12px; background:none; border:none; color:#e74c3c; cursor:pointer;">×</button>
     </div>
   `).join('');
 }
@@ -211,7 +218,7 @@ function addMemory() {
   const input = document.getElementById('memoryInput');
   const text = input.value.trim();
   if (!text) return;
-  memories.unshift({id: Date.now(), text});
+  memories.unshift({id: Date.now(), text, time: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})});
   saveAll();
   input.value = '';
   renderMemories();
@@ -222,7 +229,8 @@ function renderMemories() {
   list.innerHTML = memories.map(m => `
     <div class="item-row">
       <span>${m.text}</span>
-      <button onclick="deleteMemory(${m.id})" style="margin-left:auto; background:none; border:none; color:#e74c3c; cursor:pointer;">×</button>
+      <span class="small" style="margin-left:auto; color:#64748b">${m.time}</span>
+      <button onclick="deleteMemory(${m.id})" style="margin-left:12px; background:none; border:none; color:#e74c3c; cursor:pointer;">×</button>
     </div>
   `).join('');
 }
