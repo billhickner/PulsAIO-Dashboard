@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<title>PulsAIO Command Center • Grok v2.3</title>
+<title>PulsAIO Command Center • Grok v2.4</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -33,7 +33,7 @@ textarea, input { width: 100%; padding: 14px; border: 1px solid #cbd5e1; border-
 <div class="header">
   <div>
     <span class="logo">PulsAIO</span>
-    <span class="version">v2.3</span>
+    <span class="version">v2.4</span>
   </div>
   <div class="nav">
     <button onclick="showTab('today')" class="active">Today</button>
@@ -49,7 +49,7 @@ textarea, input { width: 100%; padding: 14px; border: 1px solid #cbd5e1; border-
 <div id="tab-today" class="page" style="display:block;">
   <div class="card">
     <h2>Today's Summary • April 4, 2026</h2>
-    <p style="color:#64748b">Good morning, Bill. Let's make today count for Unity Controls, UTBSC, and PulsAIO.</p>
+    <p style="color:#64748b">Good morning, Bill. Let's make today count for Unity Controls, UTBSC TAB, and PulsAIO.</p>
   </div>
 
   <div class="card">
@@ -99,22 +99,22 @@ textarea, input { width: 100%; padding: 14px; border: 1px solid #cbd5e1; border-
     
     <div class="pilot-card">
       <h3>David Glaser</h3>
-      <p><strong>Status:</strong> Active &nbsp;&nbsp; <strong>Goal:</strong> Full PulsAIO Implementation</p>
+      <p><strong>Status:</strong> <span style="color:var(--green)">Active</span> &nbsp;&nbsp; <strong>Goal:</strong> Full PulsAIO Implementation</p>
       <p class="small">Last update: April 3 • Notes and progress log will appear here</p>
     </div>
     <div class="pilot-card">
       <h3>Laurie Glaser</h3>
-      <p><strong>Status:</strong> Active &nbsp;&nbsp; <strong>Goal:</strong> Full PulsAIO Implementation</p>
+      <p><strong>Status:</strong> <span style="color:var(--green)">Active</span> &nbsp;&nbsp; <strong>Goal:</strong> Full PulsAIO Implementation</p>
       <p class="small">Last update: April 2 • Notes and progress log will appear here</p>
     </div>
     <div class="pilot-card">
       <h3>One Medical Houston</h3>
-      <p><strong>Status:</strong> Active &nbsp;&nbsp; <strong>Goal:</strong> Full PulsAIO Implementation</p>
+      <p><strong>Status:</strong> <span style="color:var(--green)">Active</span> &nbsp;&nbsp; <strong>Goal:</strong> Full PulsAIO Implementation</p>
       <p class="small">Last update: April 1 • Notes and progress log will appear here</p>
     </div>
     <div class="pilot-card">
       <h3>Kevin Moore</h3>
-      <p><strong>Status:</strong> Active &nbsp;&nbsp; <strong>Goal:</strong> Full PulsAIO Implementation</p>
+      <p><strong>Status:</strong> <span style="color:var(--green)">Active</span> &nbsp;&nbsp; <strong>Goal:</strong> Full PulsAIO Implementation</p>
       <p class="small">Last update: March 31 • Notes and progress log will appear here</p>
     </div>
   </div>
@@ -136,8 +136,8 @@ textarea, input { width: 100%; padding: 14px; border: 1px solid #cbd5e1; border-
 <div id="tab-calendar" class="page">
   <div class="card">
     <h2>Calendar</h2>
-    <p>Personal events + UTBSC TAB schedule will go here.</p>
-    <p class="small" style="margin-top:16px">Google Calendar integration placeholder ready.</p>
+    <p><strong>Personal Events</strong> + <strong>UTBSC TAB Schedule</strong></p>
+    <p class="small" style="margin-top:16px">Google Calendar read-only feed placeholder is ready for integration.</p>
   </div>
 </div>
 
@@ -145,8 +145,11 @@ textarea, input { width: 100%; padding: 14px; border: 1px solid #cbd5e1; border-
 <div id="tab-max" class="page">
   <div class="card">
     <h2>Max AI Assistant</h2>
-    <p>Voice input and conversation with Max will go here.</p>
-    <p class="small" style="margin-top:16px">ElevenLabs voice + Grok integration coming soon.</p>
+    <p>Voice input and conversation with Max (ElevenLabs Adam voice).</p>
+    <button class="primary" style="margin-top:16px">🎤 Speak to Max</button>
+    <div style="margin-top:20px; padding:16px; background:#f8fafc; border-radius:8px;">
+      <p style="color:#64748b">Conversation history will appear here</p>
+    </div>
   </div>
 </div>
 
@@ -296,7 +299,7 @@ function deleteGoal(id) { goals = goals.filter(g => g.id !== id); saveAll(); ren
 
 // Init
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('%c✅ Grok v2.3 Full PulsAIO Command Center loaded successfully', 'color:#00C48C;font-weight:bold');
+  console.log('%c✅ Grok v2.4 Full PulsAIO Command Center loaded successfully', 'color:#00C48C;font-weight:bold');
   renderJournal();
   renderTasks();
   renderReminders();
