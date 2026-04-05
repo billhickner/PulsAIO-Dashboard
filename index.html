@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<title>PulsAIO Command Center • Grok v2</title>
+<title>PulsAIO Command Center • Grok v2.2</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -14,6 +14,7 @@
 body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--dark); min-height:100vh; line-height:1.5; }
 .header { background: var(--primary); color: white; padding: 18px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
 .logo { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; }
+.version { font-size: 13px; background: rgba(255,255,255,0.2); padding: 2px 10px; border-radius: 12px; font-weight: 500; }
 .nav button { background: none; border: none; color: rgba(255,255,255,0.9); padding: 12px 20px; margin: 0 4px; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: 600; }
 .nav button.active { background: rgba(255,255,255,0.25); color: white; }
 .card { background: white; border-radius: 12px; padding: 24px; margin: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
@@ -22,7 +23,8 @@ button.primary { background: var(--primary); color: white; border: none; padding
 textarea, input { width: 100%; padding: 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; }
 .item-row { padding: 12px 0; border-bottom: 1px solid #eee; display: flex; align-items: center; gap: 12px; }
 .journal-entry { background: #f8fafc; padding: 16px; margin: 12px 0; border-radius: 8px; border-left: 5px solid var(--primary); }
-.pilot-card { border: 1px solid #e2e8f0; border-radius: 10px; padding: 18px; margin-bottom: 16px; }
+.pilot-card { border: 2px solid #e2e8f0; border-radius: 12px; padding: 20px; margin-bottom: 16px; transition: all 0.2s; }
+.pilot-card:hover { border-color: var(--primary); transform: translateY(-2px); }
 .small { font-size: 13px; color: #64748b; }
 .page { display: none; }
 </style>
@@ -30,7 +32,10 @@ textarea, input { width: 100%; padding: 14px; border: 1px solid #cbd5e1; border-
 <body>
 
 <div class="header">
-  <div class="logo">PulsAIO</div>
+  <div>
+    <span class="logo">PulsAIO</span>
+    <span class="version">v2.2</span>
+  </div>
   <div class="nav">
     <button onclick="showTab('today')" class="active">Today</button>
     <button onclick="showTab('pilots')">Pilots</button>
@@ -87,39 +92,39 @@ textarea, input { width: 100%; padding: 14px; border: 1px solid #cbd5e1; border-
   </div>
 </div>
 
-<!-- Pilots Tab - Rebuilt with 4 cards -->
+<!-- Pilots Tab - Full cards like the original Claude version -->
 <div id="tab-pilots" class="page">
   <div class="card">
     <h2>Active PulsAIO Pilots</h2>
-    <p style="margin-bottom:20px">Target: <strong>$25K/month recurring by mid-May 2026</strong></p>
-    
+    <p style="margin-bottom:20px"><strong>Target:</strong> $25K/month recurring by mid-May 2026</p>
+
     <div class="pilot-card">
       <h3>David Glaser</h3>
-      <p><strong>Status:</strong> Active • <strong>Goal:</strong> Full implementation</p>
-      <p class="small">Notes / Updates will go here</p>
+      <p><strong>Status:</strong> Active &nbsp;&nbsp; <strong>Goal:</strong> Full PulsAIO Implementation</p>
+      <p class="small">Last update: April 3 • Notes and progress log will appear here</p>
     </div>
 
     <div class="pilot-card">
       <h3>Laurie Glaser</h3>
-      <p><strong>Status:</strong> Active • <strong>Goal:</strong> Full implementation</p>
-      <p class="small">Notes / Updates will go here</p>
+      <p><strong>Status:</strong> Active &nbsp;&nbsp; <strong>Goal:</strong> Full PulsAIO Implementation</p>
+      <p class="small">Last update: April 2 • Notes and progress log will appear here</p>
     </div>
 
     <div class="pilot-card">
       <h3>One Medical Houston</h3>
-      <p><strong>Status:</strong> Active • <strong>Goal:</strong> Full implementation</p>
-      <p class="small">Notes / Updates will go here</p>
+      <p><strong>Status:</strong> Active &nbsp;&nbsp; <strong>Goal:</strong> Full PulsAIO Implementation</p>
+      <p class="small">Last update: April 1 • Notes and progress log will appear here</p>
     </div>
 
     <div class="pilot-card">
       <h3>Kevin Moore</h3>
-      <p><strong>Status:</strong> Active • <strong>Goal:</strong> Full implementation</p>
-      <p class="small">Notes / Updates will go here</p>
+      <p><strong>Status:</strong> Active &nbsp;&nbsp; <strong>Goal:</strong> Full PulsAIO Implementation</p>
+      <p class="small">Last update: March 31 • Notes and progress log will appear here</p>
     </div>
   </div>
 </div>
 
-<!-- Other Tabs (placeholders) -->
+<!-- Other tabs -->
 <div id="tab-goals" class="page"><div class="card"><h2>Goals</h2><p>Goals tracking will go here.</p></div></div>
 <div id="tab-calendar" class="page"><div class="card"><h2>Calendar</h2><p>Calendar + UTBSC TAB schedule will go here.</p></div></div>
 <div id="tab-max" class="page"><div class="card"><h2>Max AI Assistant</h2><p>Voice input and conversation will go here.</p></div></div>
@@ -239,7 +244,7 @@ function deleteMemory(id) { memories = memories.filter(m => m.id !== id); saveAl
 
 // Init
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('%c✅ Grok v2 PulsAIO Command Center loaded successfully', 'color:#00C48C;font-weight:bold');
+  console.log('%c✅ Grok v2.2 PulsAIO Command Center loaded successfully', 'color:#00C48C;font-weight:bold');
   renderJournal();
   renderTasks();
   renderReminders();
