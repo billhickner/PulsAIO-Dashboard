@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<title>PulsAIO Command Center - Grok v2.6</title>
+<title>PulsAIO Command Center - Grok v2.7</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -13,24 +13,23 @@
   --red: #E84C4C; --dark: #0D1B2A; --bg: #F0F4F8;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--dark); min-height: 100vh; }
-.header { background: var(--primary); color: white; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--dark); min-height: 100vh; line-height: 1.5; }
+.header { background: var(--primary); color: white; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
 .logo { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; }
-.nav button { background: none; border: none; color: rgba(255,255,255,0.9); padding: 10px 18px; border-radius: 6px; cursor: pointer; font-weight: 600; }
-.nav button.active { background: rgba(255,255,255,0.3); color: white; }
+.nav button { background: none; border: none; color: rgba(255,255,255,0.9); padding: 10px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; margin: 0 4px; }
+.nav button.active { background: rgba(255,255,255,0.3); }
 .card { background: white; border-radius: 12px; padding: 24px; margin: 16px 0; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
 h2 { color: var(--primary); margin-bottom: 16px; }
 button.primary { background: var(--primary); color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-size: 15px; }
-textarea, input { width: 100%; padding: 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; }
-.item-row { padding: 10px 0; border-bottom: 1px solid #eee; display: flex; align-items: center; }
+textarea, input { width: 100%; padding: 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; margin-bottom: 8px; }
+.item-row { padding: 10px 0; border-bottom: 1px solid #eee; display: flex; align-items: center; gap: 10px; }
 .journal-entry { background: #f8fafc; padding: 16px; margin: 12px 0; border-radius: 8px; border-left: 5px solid var(--primary); }
-.pilot-card { border: 2px solid #eee; border-radius: 10px; padding: 16px; margin-bottom: 12px; }
 </style>
 </head>
 <body>
 
 <div class="header">
-  <div class="logo">PulsAIO <span style="font-size:14px;opacity:0.8;">Grok v2.6</span></div>
+  <div class="logo">PulsAIO <span style="font-size:13px;opacity:0.75;">Grok v2.7</span></div>
   <div class="nav">
     <button class="active" onclick="showTab('today')">Today</button>
     <button onclick="showTab('pilots')">Pilots</button>
@@ -38,78 +37,57 @@ textarea, input { width: 100%; padding: 14px; border: 1px solid #cbd5e1; border-
     <button onclick="showTab('calendar')">Calendar</button>
     <button onclick="showTab('max')">Max</button>
     <button onclick="showTab('projects')">Projects</button>
-    <button onclick="showTab('path')">AI Path</button>
   </div>
 </div>
 
-<!-- TODAY TAB -->
+<!-- TODAY -->
 <div id="tab-today" class="page">
   <div class="card">
     <h2>Daily Journal</h2>
-    <textarea id="journalInput" placeholder="What's driving your decisions today, Bill?"></textarea>
-    <br><br>
+    <textarea id="journalInput" rows="4" placeholder="What's driving your decisions today, Bill?"></textarea>
     <button class="primary" onclick="saveEntry()">Save Entry</button>
   </div>
 
   <div class="card">
-    <h2>Previous Entries</h2>
-    <div id="journalList"></div>
+    <h2>Previous Journal Entries</h2>
+    <div id="journalList" style="max-height:300px;overflow-y:auto;"></div>
   </div>
 
   <div class="card">
     <h2>Today's Tasks</h2>
-    <div style="display:flex;gap:8px;margin-bottom:12px"><input id="taskInput" placeholder="New task..." style="flex:1"><button class="primary" onclick="addTask()">Add</button></div>
-    <div id="taskList"></div>
-  </div>
-
-  <div class="card">
-    <h2>Reminders</h2>
-    <div style="display:flex;gap:8px;margin-bottom:12px"><input id="reminderInput" placeholder="New reminder..." style="flex:1"><button class="primary" onclick="addReminder()">Add</button></div>
-    <div id="reminderList"></div>
-  </div>
-
-  <div class="card">
-    <h2>Memory Bank (for Max)</h2>
-    <div style="display:flex;gap:8px;margin-bottom:12px"><input id="memoryInput" placeholder="Tell Max to remember..." style="flex:1"><button class="primary" onclick="addMemory()">Save</button></div>
-    <div id="memoryList"></div>
+    <input id="taskInput" placeholder="Add new task...">
+    <button class="primary" onclick="addTask()" style="margin-top:8px;">Add Task</button>
+    <div id="taskList" style="margin-top:16px;"></div>
   </div>
 </div>
 
-<!-- PILOTS TAB -->
+<!-- PILOTS -->
 <div id="tab-pilots" class="page hidden">
   <div class="card">
-    <h2>Active Pilot Stores</h2>
-    <div id="pilotsContainer"></div>
+    <h2>Active Pilots</h2>
+    <div id="pilotsList"></div>
   </div>
 </div>
 
-<!-- Placeholder Tabs -->
-<div id="tab-goals" class="page hidden"><div class="card"><h2>Goals</h2><p>Goals tracking will be expanded soon.</p></div></div>
-<div id="tab-calendar" class="page hidden"><div class="card"><h2>Calendar</h2><p>Calendar + UTBSC schedule coming soon.</p></div></div>
-<div id="tab-max" class="page hidden"><div class="card"><h2>Max AI Assistant</h2><p>Voice input + conversation coming in next update.</p></div></div>
-<div id="tab-projects" class="page hidden"><div class="card"><h2>Projects</h2><p>Project management coming soon.</p></div></div>
-<div id="tab-path" class="page hidden"><div class="card"><h2>AI Path</h2><p>Daily narrative from Max coming soon.</p></div></div>
+<!-- Other tabs -->
+<div id="tab-goals" class="page hidden"><div class="card"><h2>Goals</h2><p>Coming in v2.8</p></div></div>
+<div id="tab-calendar" class="page hidden"><div class="card"><h2>Calendar</h2><p>Coming in v2.8</p></div></div>
+<div id="tab-max" class="page hidden"><div class="card"><h2>Max</h2><p>Voice assistant coming in v2.8</p></div></div>
+<div id="tab-projects" class="page hidden"><div class="card"><h2>Projects</h2><p>Coming in v2.8</p></div></div>
 
 <script>
-// Grok v2.6 Full Rebuild - Bill Hickner - 2026-04-04
+// Grok v2.7 - Full clean rebuild for Bill Hickner
+console.log('%c✅ Grok v2.7 loaded successfully', 'color:#00C48C;font-weight:bold;font-size:14px');
+
 let journalEntries = JSON.parse(localStorage.getItem('journalEntries') || '[]');
 let tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
-let reminders = JSON.parse(localStorage.getItem('reminders') || '[]');
-let memories = JSON.parse(localStorage.getItem('memories') || '[]');
 
 const pilots = [
-  {name: "David Glaser", status: "Active", goal: "$8K/mo", notes: "Modbus integration"},
-  {name: "Laurie Glaser", status: "Active", goal: "$6K/mo", notes: "Pilot store"},
-  {name: "One Medical Houston", status: "Active", goal: "$5K/mo", notes: "Healthcare"},
-  {name: "Kevin Moore", status: "Active", goal: "$4K/mo", notes: "Retail pilot"}
+  {name: "David Glaser", status: "Active", goal: "$8K/mo"},
+  {name: "Laurie Glaser", status: "Active", goal: "$6K/mo"},
+  {name: "One Medical Houston", status: "Active", goal: "$5K/mo"},
+  {name: "Kevin Moore", status: "Active", goal: "$4K/mo"}
 ];
-
-function saveAll() {
-  localStorage.setItem('journalEntries', JSON.stringify(journalEntries));
-  localStorage.setItem('tasks', JSON.stringify(tasks));
-  localStorage.setItem('reminders', JSON.stringify(reminders));
-  localStorage.setItem('memories', JSON.stringify(memories));
-}
 
 function showTab(tab) {
   document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
@@ -119,43 +97,82 @@ function showTab(tab) {
 function saveEntry() {
   const input = document.getElementById('journalInput');
   const text = input.value.trim();
-  if (!text) return alert("Please type something.");
-  journalEntries.unshift({id: Date.now(), date: new Date().toLocaleDateString(), text});
-  saveAll();
-  alert("✅ Journal saved");
+  if (!text) return alert("Please type something in the journal box.");
+  
+  journalEntries.unshift({
+    id: Date.now(),
+    date: new Date().toLocaleDateString('en-US'),
+    text: text
+  });
+  
+  localStorage.setItem('journalEntries', JSON.stringify(journalEntries));
+  alert("✅ Journal entry saved successfully!");
   input.value = '';
   renderJournal();
 }
 
 function renderJournal() {
   const list = document.getElementById('journalList');
-  list.innerHTML = journalEntries.map(e => `<div class="journal-entry"><small>${e.date}</small><p>${e.text}</p></div>`).join('');
+  if (journalEntries.length === 0) {
+    list.innerHTML = '<p style="color:#888">No entries yet.</p>';
+    return;
+  }
+  list.innerHTML = journalEntries.map(e => `
+    <div class="journal-entry">
+      <small style="color:#666">${e.date}</small>
+      <p>${e.text}</p>
+    </div>
+  `).join('');
 }
 
-// Placeholder functions (expand as needed)
-function addTask() { alert("Task feature - will be fully expanded in next update"); }
-function renderTasks() { }
-function addReminder() { alert("Reminder feature - will be fully expanded in next update"); }
-function renderReminders() { }
-function addMemory() { alert("Memory feature - will be fully expanded in next update"); }
-function renderMemories() { }
+function addTask() {
+  const input = document.getElementById('taskInput');
+  const text = input.value.trim();
+  if (!text) return;
+  tasks.push({id: Date.now(), text, done: false});
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+  input.value = '';
+  renderTasks();
+}
+
+function renderTasks() {
+  const list = document.getElementById('taskList');
+  list.innerHTML = tasks.map(t => `
+    <div class="item-row">
+      <input type="checkbox" ${t.done ? 'checked' : ''} onchange="toggleTask(${t.id})">
+      <span style="${t.done ? 'text-decoration:line-through;color:#888' : ''}">${t.text}</span>
+      <button onclick="deleteTask(${t.id})" style="margin-left:auto;color:#e74c3c;background:none;border:none;cursor:pointer;">×</button>
+    </div>
+  `).join('');
+}
+
+function toggleTask(id) {
+  tasks = tasks.map(t => t.id === id ? {...t, done: !t.done} : t);
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+  renderTasks();
+}
+
+function deleteTask(id) {
+  tasks = tasks.filter(t => t.id !== id);
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+  renderTasks();
+}
 
 function renderPilots() {
-  const container = document.getElementById('pilotsContainer');
+  const container = document.getElementById('pilotsList');
   container.innerHTML = pilots.map(p => `
-    <div class="pilot-card">
+    <div style="border:1px solid #ddd;border-radius:8px;padding:16px;margin-bottom:12px;">
       <strong>${p.name}</strong><br>
       Status: <span style="color:var(--green)">${p.status}</span><br>
-      Goal: ${p.goal}<br>
-      Notes: ${p.notes}
+      Goal: ${p.goal}
     </div>
   `).join('');
 }
 
 // Init
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('%c✅ Grok v2.6 Full Rebuild loaded successfully', 'color:#00C48C;font-weight:bold');
   renderJournal();
+  renderTasks();
   renderPilots();
   showTab('today');
 });
