@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<title>PulsAIO Command Center</title>
+<title>PulsAIO Command Center - v2</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -29,7 +29,7 @@ textarea, input { width: 100%; padding: 14px; border: 1px solid #cbd5e1; border-
 <body>
 
 <div class="header">
-  <div class="logo">PulsAIO</div>
+  <div class="logo">PulsAIO <small style="font-size:12px;opacity:0.7;">v2</small></div>
   <div class="nav">
     <button class="active" onclick="showTab('today')">Today</button>
     <button onclick="showTab('pilots')">Pilots</button>
@@ -68,9 +68,9 @@ textarea, input { width: 100%; padding: 14px; border: 1px solid #cbd5e1; border-
 <div id="tab-max" class="page hidden">
   <div class="card">
     <h2>Max — Your Voice Assistant</h2>
-    <p>Speak to Max. He can take notes for jobs, projects, or anything else.</p>
+    <p>Click the button and speak. Max can take notes for jobs, projects, or supply lists.</p>
     <button class="voice-btn" onclick="startVoiceInput()">🎤 Speak to Max</button>
-    <div id="maxOutput" style="margin-top:20px; padding:16px; background:#f8fafc; border-radius:8px; min-height:120px;"></div>
+    <div id="maxOutput" style="margin-top:20px; padding:16px; background:#f8fafc; border-radius:8px; min-height:140px;"></div>
   </div>
 </div>
 
@@ -88,7 +88,7 @@ textarea, input { width: 100%; padding: 14px; border: 1px solid #cbd5e1; border-
 <div id="tab-projects" class="page hidden"><div class="card"><h2>Projects</h2><p>Project management coming soon.</p></div></div>
 
 <script>
-// Data
+// PulsAIO Command Center - v2
 let journalEntries = JSON.parse(localStorage.getItem('journalEntries') || '[]');
 let tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
 
@@ -99,13 +99,11 @@ const pilots = [
   {name: "Kevin Moore", status: "Active", goal: "Pilot success"}
 ];
 
-// Tab switching
 function showTab(tab) {
   document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
   document.getElementById('tab-' + tab).classList.remove('hidden');
 }
 
-// Journal
 function saveEntry() {
   const input = document.getElementById('journalInput');
   const text = input.value.trim();
@@ -119,11 +117,10 @@ function saveEntry() {
 
 function renderJournal() {
   const list = document.getElementById('journalList');
-  list.innerHTML = journalEntries.length === 0 ? '<p style="color:#888">No entries yet.</p>' : 
+  list.innerHTML = journalEntries.length === 0 ? '<p style="color:#888">No entries yet.</p>' :
     journalEntries.map(e => `<div class="journal-entry"><small>${e.date}</small><p>${e.text}</p></div>`).join('');
 }
 
-// Tasks
 function addTask() {
   const input = document.getElementById('taskInput');
   const text = input.value.trim();
@@ -157,25 +154,23 @@ function deleteTask(id) {
   renderTasks();
 }
 
-// Voice Input for Max
 function startVoiceInput() {
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SpeechRecognition) return alert("Voice input not supported in this browser.");
+  if (!SpeechRecognition) return alert("Voice input not supported in this browser. Try Chrome.");
   
   const recognition = new SpeechRecognition();
   recognition.lang = 'en-US';
   recognition.onresult = (event) => {
     const transcript = event.results[0][0].transcript;
-    document.getElementById('maxOutput').innerHTML = `<strong>You said:</strong> ${transcript}<br><br><em>Max heard you. What would you like him to do with this note?</em>`;
+    document.getElementById('maxOutput').innerHTML = `<strong>You said:</strong> ${transcript}<br><br><strong>Max:</strong> Noted, Bill. What would you like me to do with this?`;
   };
   recognition.start();
 }
 
-// Render Pilots
 function renderPilots() {
   const list = document.getElementById('pilotsList');
   list.innerHTML = pilots.map(p => `
-    <div style="margin-bottom:16px; padding:16px; background:#f8fafc; border-radius:8px;">
+    <div style="margin-bottom:16px;padding:16px;background:#f8fafc;border-radius:8px;">
       <strong>${p.name}</strong><br>
       Status: <span style="color:var(--green)">${p.status}</span><br>
       Goal: ${p.goal}
@@ -185,7 +180,7 @@ function renderPilots() {
 
 // Init
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('%c✅ PulsAIO Command Center loaded successfully', 'color:#00C48C;font-weight:bold');
+  console.log('%c✅ PulsAIO Command Center v2 loaded successfully', 'color:#00C48C;font-weight:bold');
   renderJournal();
   renderTasks();
   renderPilots();
